@@ -1,0 +1,66 @@
+/*
+ * What both published pages share (MAZE-289).
+ *
+ * There are two of them now — the game's page and the demo's — and the palette
+ * below is a TABLE WITH A SOURCE: every colour is a constant from
+ * `src/art/palette.ts`, by way of the itch theme table in
+ * `docs/store-copy.md`. A second page copying that block is precisely the
+ * duplication this project's first rule forbids, and it is the kind that goes
+ * wrong quietly: the page whose copy was not updated does not break, it just
+ * stops agreeing with the game.
+ *
+ * Only what is genuinely common lives here. Each page keeps its own layout in
+ * its own <style> block, because they have nothing in common there: one is a
+ * 780px column of prose, the other is a game filling the viewport.
+ *
+ * Published verbatim as `dark-maze/style.css` — see publish.manifest.
+ */
+
+:root {
+  --bg: #0b1026;      /* NIGHT */
+  --panel: #141d3d;   /* DEEP_BLUE */
+  --text: #c8c8d2;
+  --link: #7fa8dd;    /* LIGHT_BLUE, the moon */
+  --yellow: #d8d84a;
+  --dim: #8a93ad;
+  --faint: #5d6885;
+  --rule: #2a3556;
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 16px/1.65 "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+a { color: var(--link); }
+a:hover { color: var(--yellow); }
+
+h2 {
+  font-size: 15px; text-transform: uppercase; letter-spacing: .08em;
+  color: var(--yellow); margin: 40px 0 12px; font-weight: 700;
+}
+p { margin: 0 0 14px; }
+strong { color: #eef1f8; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 34px 0; }
+
+/* The one shared component: the call to action that sends a visitor to the
+   free demo. It is on the game's page as the main link and on the demo's page
+   as the way back to the full game, and a button that changed colour between
+   the two would read as two different offers. */
+.cta {
+  display: block; text-align: center; text-decoration: none;
+  background: var(--yellow); color: #0b1026;
+  font-size: 20px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+  padding: 16px 20px; border: 2px solid var(--yellow);
+}
+.cta:hover { background: var(--bg); color: var(--yellow); }
+.cta-note { color: var(--dim); font-size: 14px; text-align: center; margin: 10px 0 0; }
+
+footer {
+  border-top: 1px solid var(--rule); margin-top: 40px; padding-top: 18px;
+  color: var(--faint); font-size: 14px;
+}
+footer ul { list-style: none; margin: 0 0 14px; padding: 0; }
+footer li { display: inline-block; margin: 0 18px 6px 0; }
+.warn { color: var(--faint); font-size: 14px; font-style: italic; }

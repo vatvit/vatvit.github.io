@@ -28,28 +28,13 @@
 <meta name="twitter:description" content="A first-person maze in the dark. Nine floors, one night, and something blind listening for footsteps.">
 <meta name="twitter:image" content="https://vatvit.github.io/dark-maze/media/title-plate.png">
 
+<!-- The palette, the base type and the call-to-action button live in one file
+     because there are two published pages now and the colours are a table with
+     a source (src/art/palette.ts). See site/style.css (MAZE-289). -->
+<link rel="stylesheet" href="style.css">
+
 <style>
-  /* Every colour is a constant from src/art/palette.ts, by way of
-     docs/store-copy.md's itch theme table — so the page and the game agree. */
-  :root {
-    --bg: #0b1026;      /* NIGHT */
-    --panel: #141d3d;   /* DEEP_BLUE */
-    --text: #c8c8d2;
-    --link: #7fa8dd;    /* LIGHT_BLUE, the moon */
-    --yellow: #d8d84a;
-    --dim: #8a93ad;
-    --faint: #5d6885;
-    --rule: #2a3556;
-  }
-  * { box-sizing: border-box; }
-  html { background: var(--bg); }
-  body {
-    margin: 0; background: var(--bg); color: var(--text);
-    font: 16px/1.65 "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  }
   .wrap { max-width: 780px; margin: 0 auto; background: var(--panel); padding: 34px 26px 40px; }
-  a { color: var(--link); }
-  a:hover { color: var(--yellow); }
 
   header { text-align: center; margin: 0 0 30px; }
   /* The banner carries the wordmark, so the page still needs an h1 for
@@ -65,14 +50,6 @@
      inside a phone, where scaling down is unavoidable for every image here. */
   header img { width: auto; max-width: 100%; image-rendering: pixelated; display: block; margin: 0 auto; }
   .tagline { color: var(--dim); margin: 10px 0 0; font-size: 15px; }
-
-  h2 {
-    font-size: 15px; text-transform: uppercase; letter-spacing: .08em;
-    color: var(--yellow); margin: 40px 0 12px; font-weight: 700;
-  }
-  p { margin: 0 0 14px; }
-  strong { color: #eef1f8; }
-  hr { border: 0; border-top: 1px solid var(--rule); margin: 34px 0; }
 
   video, figure img { width: 100%; display: block; border: 1px solid var(--rule); }
   figure { margin: 0; }
@@ -103,7 +80,7 @@
      `>` (the high score table reads `> Back <`), so the page borrows that rather
      than inventing a bullet or borrowing a storefront's logo — it is the game's
      UI language, it costs no bytes, and it cannot 404. */
-  .stores li::before {
+  .stores li:not(:has(.mark))::before {
     content: ">"; color: var(--yellow); font-weight: 700;
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   }
@@ -115,14 +92,19 @@
   .stores li:last-child { border-bottom: 0; padding-bottom: 0; }
   .stores a { font-size: 16px; font-weight: 700; }
   .stores span { color: var(--faint); font-size: 14px; }
+  /* A storefront's own mark, self-hosted. itch's press kit asks for exactly
+     that — "please do not hotlink images" — and hotlinking would also hand
+     every visitor's IP to a third party from a page whose privacy policy says
+     it collects nothing. `height: auto` because their guidelines require the
+     aspect ratio be preserved, and no filter or pixelation: it is a vector mark
+     and not ours to restyle. */
+  .stores .mark { width: 18px; height: auto; flex: none; align-self: center; }
 
-  footer {
-    border-top: 1px solid var(--rule); margin-top: 40px; padding-top: 18px;
-    color: var(--faint); font-size: 14px;
-  }
-  footer ul { list-style: none; margin: 0 0 14px; padding: 0; }
-  footer li { display: inline-block; margin: 0 18px 6px 0; }
-  .warn { color: var(--faint); font-size: 14px; font-style: italic; }
+  /* The demo link sits between the banner and the trailer — the strongest
+     place on the page, because a funnel's job is the click. The button itself
+     is shared with the demo page (style.css); what is local is the room around
+     it here. */
+  .play { margin: 0 0 30px; }
 </style>
 </head>
 <body>
@@ -133,6 +115,21 @@
     <h1>Dark Maze</h1>
     <p class="tagline">Dark stone in every direction. The way out is in here somewhere.</p>
   </header>
+
+  <!--
+    THE DEMO LINK (MAZE-289). Above the trailer on purpose: docs/tech-stack.md
+    has always called the browser build a funnel rather than a sales channel,
+    and a funnel's first job is the click. A visitor who watches the trailer
+    and leaves was one scroll away from playing it.
+
+    The line under it is not decoration — it is the epic's honesty criterion.
+    It says this is one floor of nine BEFORE the click, so nobody reaches the
+    demo-complete screen feeling tricked. Do not shorten it away.
+  -->
+  <div class="play">
+    <a class="cta" href="play/">Play the free demo in your browser</a>
+    <p class="cta-note">One floor of the nine, free — no account, no install. Works on a phone too.</p>
+  </div>
 
   <video controls preload="none" poster="media/corridor-with-map.png" playsinline>
     <source src="media/trailer.webm" type="video/webm">
@@ -242,12 +239,23 @@
     -->
 
     <ul class="stores">
-      <li><a href="https://vatvitdev.itch.io/dark-maze">itch.io</a> <span>play in the browser, or download it</span></li>
+      <li><img class="mark" src="media/itchio-mark.svg" alt="" width="18" height="16"><a href="https://vatvitdev.itch.io/dark-maze">itch.io</a> <span>play in the browser, or download it</span></li>
     </ul>
+
+    <!-- Under the store rows, not among them: this heading says "buy" and the
+         demo costs nothing. It is here for the visitor who read all the way to
+         the bottom before deciding, and who is exactly the person a free floor
+         is for (MAZE-289). -->
+    <p style="margin: 16px 0 0">Not sure yet? <a href="play/"><strong>You can try the demo
+    version free here</strong></a> — one floor of the nine, in your browser.</p>
   </div>
 
   <footer>
     <ul>
+      <!-- Not in the store list above: that heading says "buy" and this costs
+           nothing. It is here for the visitor who read to the bottom and
+           scrolled past the button at the top (MAZE-289). -->
+      <li><a href="play/">Play the free demo</a></li>
       <li><a href="privacy/">Privacy policy</a></li>
       <li><a href="notices/">Third-party notices</a></li>
       <li><a href="mailto:vatvit.dev+darkmaze@gmail.com">vatvit.dev+darkmaze@gmail.com</a></li>

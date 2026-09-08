@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dark Maze — free demo</title>
+<meta name="description" content="Play one floor of Dark Maze free in your browser. A first-person maze in the dark, with something blind in it listening for footsteps.">
+<link rel="canonical" href="https://vatvit.github.io/dark-maze/play/">
+
+<link rel="icon" href="../media/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="../media/apple-touch-icon.png">
+<!-- iOS: added to the home screen this opens without Safari's chrome, which is
+     the whole of "it works like an app" and costs two tags. -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Dark Maze">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Dark Maze">
+<meta property="og:title" content="Dark Maze — free demo">
+<meta property="og:description" content="Play one floor of Dark Maze free in your browser. No account, no install.">
+<meta property="og:url" content="https://vatvit.github.io/dark-maze/play/">
+<meta property="og:image" content="https://vatvit.github.io/dark-maze/media/title-plate.png">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Dark Maze — free demo">
+<meta name="twitter:description" content="One floor of the nine, free in your browser.">
+<meta name="twitter:image" content="https://vatvit.github.io/dark-maze/media/title-plate.png">
+
+<link rel="stylesheet" href="../style.css">
+
+<style>
+  /*
+    THE GAME IS THE TOP OF THIS PAGE, with nothing above it — Vat's ruling when
+    this page was chosen over a bare one (MAZE-289). A visitor who followed a
+    button marked "play" has already read the sentence explaining the demo; a
+    heading here would only stand between them and the thing they came for. The
+    words go underneath, where the player who finishes the floor will look.
+  */
+  /*
+    THE FRAME IS SIZED OFF THE VIEWPORT HEIGHT, and the reason is measured
+    rather than aesthetic.
+
+    The game scales its buffer by a WHOLE number (docs/interface.md) — 320x180
+    landscape, 160x360 portrait — so a frame that is a little too short does not
+    cost a little quality, it costs an entire step: x3 becomes x2 and every
+    pixel doubles. A first attempt here gave the frame a fixed 16:9 of the
+    column width and handed a 1280x720 window x2 where the game alone gets x4,
+    and a phone x1 where it gets x2. Framing always costs something; this keeps
+    it to one step on a desktop and NOTHING on a phone.
+
+    86vh, so the words underneath are a short scroll away rather than invisible:
+    the strip of page below the fold is what tells a player there is something
+    to read after the floor. `dvh` after `vh` because a mobile browser's toolbar
+    makes `vh` a promise it does not keep — the second declaration wins where it
+    is understood and is ignored where it is not.
+  */
+  .frame {
+    width: 100%;
+    height: 86vh;
+    height: 86dvh;
+    /* Landscape only: past 16:9 the extra width is black bars, not game. */
+    max-width: calc(86vh * 16 / 9);
+    max-width: calc(86dvh * 16 / 9);
+    margin: 0 auto;
+    display: block;
+  }
+  /* Portrait: the game lays itself out 160x360 with the map underneath, which
+     is TALLER than the frame however wide it is — so the width cap is dropped
+     and the screen is given to it whole. */
+  @media (max-aspect-ratio: 1/1) {
+    .frame { max-width: 100%; }
+  }
+  iframe {
+    width: 100%; height: 100%;
+    border: 0; display: block; background: #000;
+  }
+  .under { max-width: 780px; margin: 0 auto; padding: 22px 20px 34px; }
+  .lede { color: var(--text); font-size: 17px; margin: 0 0 18px; }
+  .cols { display: flex; gap: 26px; flex-wrap: wrap; }
+  .cols > div { flex: 1 1 300px; }
+  .cols h2 { margin-top: 0; }
+  .cols p:last-child { margin-bottom: 0; }
+  .under .cta { margin-top: 8px; }
+  ul.plain { list-style: none; margin: 0; padding: 0; }
+  ul.plain li { padding: 6px 0; border-bottom: 1px solid var(--rule); color: var(--dim); font-size: 15px; }
+  ul.plain li:last-child { border-bottom: 0; }
+</style>
+</head>
+<body>
+
+<!--
+  The artefact, untouched. `game.html` is exactly what `npm run build:demo:offline`
+  produced — one self-contained file, published byte for byte, checked by
+  `scripts/check-isolation.sh` before it could be staged. Framing it rather than
+  editing it is the point: the moment this page reaches inside the build, the
+  thing on the internet stops being the thing that was tested.
+
+  `allow="autoplay"` because the game's audio starts from the player's own click
+  INSIDE the frame, and a nested document does not inherit that gesture's
+  permission by default.
+-->
+<div class="frame">
+  <iframe id="game" src="game.html" title="Dark Maze — the free demo, playable" allow="autoplay; fullscreen"></iframe>
+</div>
+
+<div class="under">
+
+  <p class="lede"><strong>This is the free demo.</strong> One floor of the nine, generated fresh
+  every time, with a monster on it and a night that runs out. The full game is a tower: nine
+  floors, one fifteen-minute night, and an ending you have to reach before dawn.</p>
+
+  <div class="cols">
+    <div>
+      <h2>How to play</h2>
+      <ul class="plain">
+        <li>Arrow keys or WASD — walk and turn</li>
+        <li>On a phone — the buttons under the view</li>
+        <li>The map draws only where you have been</li>
+        <li>Something in here is blind, and listens</li>
+      </ul>
+      <p class="warn" style="margin-top:12px">Contains sudden loud sounds and sharp changes from
+      dark to bright.</p>
+    </div>
+
+    <div>
+      <h2>On your phone</h2>
+      <p>This same page plays in a mobile browser, held either way — the game lays itself out
+      for the screen it finds.</p>
+      <p>Add it to your home screen and it opens like an app, with no browser around it.</p>
+    </div>
+  </div>
+
+  <h2>The rest of the tower</h2>
+  <a class="cta" href="../">Dark Maze — the full game</a>
+  <p class="cta-note">Nine floors, the endings, and what is at the top of the tower.</p>
+
+  <footer>
+    <ul>
+      <li><a href="../">Dark Maze</a></li>
+      <li><a href="../privacy/">Privacy policy</a></li>
+      <li><a href="../notices/">Third-party notices</a></li>
+      <li><a href="mailto:vatvit.dev+darkmaze@gmail.com">vatvit.dev+darkmaze@gmail.com</a></li>
+    </ul>
+    <p>Dark Maze — Copyright © 2026 vatvit. All rights reserved.</p>
+  </footer>
+
+</div>
+
+<script>
+/*
+ * THE ONE THING THAT MAKES THE FRAME WORK, and it fails silently without it.
+ *
+ * A keyboard event goes to the focused document. The game listens on its OWN
+ * window, inside the iframe, and an iframe has no focus until something gives
+ * it some. So a visitor arrives, presses an arrow key, nothing happens at all,
+ * and the reasonable conclusion is that the demo is broken — no error, no
+ * console message, nothing to notice while testing with a mouse.
+ *
+ * Focused on load, and again on any press over the frame, because clicking the
+ * page around the game takes focus away and the player would have no idea why
+ * the keys stopped. `preventScroll` so grabbing focus cannot jump the page.
+ */
+var game = document.getElementById('game')
+function grab() { try { game.focus({ preventScroll: true }) } catch (e) { game.focus() } }
+game.addEventListener('load', grab)
+document.querySelector('.frame').addEventListener('pointerdown', grab)
+</script>
+
+</body>
+</html>
