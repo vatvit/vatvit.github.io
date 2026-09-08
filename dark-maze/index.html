@@ -44,10 +44,18 @@
   a:hover { color: var(--yellow); }
 
   header { text-align: center; margin: 0 0 30px; }
+  /* The banner carries the wordmark, so the page still needs an h1 for
+     the document outline and for a reader that never sees the picture —
+     it just must not say the name a second time in type (MAZE-280). */
   header h1 {
-    font-size: 30px; letter-spacing: .1em; text-transform: uppercase;
-    color: var(--yellow); margin: 0; font-weight: 700;
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip-path: inset(50%); white-space: nowrap;
   }
+  /* Natural size, NOT stretched to the column: the banner is 640 (the pane at a
+     whole x4) and the column is 728, and 728 is not a whole multiple of 160.
+     Stretching would put a fractional scale on pixel art. max-width keeps it
+     inside a phone, where scaling down is unavoidable for every image here. */
+  header img { width: auto; max-width: 100%; image-rendering: pixelated; display: block; margin: 0 auto; }
   .tagline { color: var(--dim); margin: 10px 0 0; font-size: 15px; }
 
   h2 {
@@ -92,11 +100,12 @@
 <div class="wrap">
 
   <header>
+    <img src="media/banner.png" alt="A stone corridor in the dark, a cobweb on the right, DARK MAZE across it">
     <h1>Dark Maze</h1>
     <p class="tagline">Dark stone in every direction. The way out is in here somewhere.</p>
   </header>
 
-  <video controls preload="none" poster="media/title-plate.png" playsinline>
+  <video controls preload="none" poster="media/corridor-with-map.png" playsinline>
     <source src="media/trailer.webm" type="video/webm">
     <a href="media/trailer.webm">Watch the trailer</a>
   </video>
