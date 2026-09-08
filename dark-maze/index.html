@@ -99,6 +99,14 @@
      be one line and not an afternoon of design. Empty, it renders as nothing. */
   .stores { list-style: none; margin: 0; padding: 0; }
   .stores:empty { display: none; }
+  /* The game's own menu cursor. Its screens point at the selected line with a
+     `>` (the high score table reads `> Back <`), so the page borrows that rather
+     than inventing a bullet or borrowing a storefront's logo — it is the game's
+     UI language, it costs no bytes, and it cannot 404. */
+  .stores li::before {
+    content: ">"; color: var(--yellow); font-weight: 700;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
   .stores li {
     display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline;
     padding: 10px 0; border-bottom: 1px solid var(--rule);
