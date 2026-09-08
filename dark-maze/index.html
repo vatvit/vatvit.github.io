@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dark Maze</title>
+<meta name="description" content="A first-person maze in the dark. Stone walls close on either side, enough light to see a step ahead, and the map draws only where you have already been.">
+<link rel="canonical" href="https://vatvit.github.io/dark-maze/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Dark Maze">
+<meta property="og:title" content="Dark Maze">
+<meta property="og:description" content="A first-person maze in the dark. Stone walls close on either side, enough light to see a step ahead, and the map draws only where you have already been.">
+<meta property="og:url" content="https://vatvit.github.io/dark-maze/">
+<meta property="og:image" content="https://vatvit.github.io/dark-maze/media/title-plate.png">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Dark Maze">
+<meta name="twitter:description" content="A first-person maze in the dark. Nine floors, one night, and something blind listening for footsteps.">
+<meta name="twitter:image" content="https://vatvit.github.io/dark-maze/media/title-plate.png">
+
+<style>
+  /* Every colour is a constant from src/art/palette.ts, by way of
+     docs/store-copy.md's itch theme table — so the page and the game agree. */
+  :root {
+    --bg: #0b1026;      /* NIGHT */
+    --panel: #141d3d;   /* DEEP_BLUE */
+    --text: #c8c8d2;
+    --link: #7fa8dd;    /* LIGHT_BLUE, the moon */
+    --yellow: #d8d84a;
+    --dim: #8a93ad;
+    --faint: #5d6885;
+    --rule: #2a3556;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--bg); }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.65 "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; background: var(--panel); padding: 34px 26px 40px; }
+  a { color: var(--link); }
+  a:hover { color: var(--yellow); }
+
+  header { text-align: center; margin: 0 0 30px; }
+  header img { width: 100%; max-width: 520px; image-rendering: pixelated; }
+  .tagline { color: var(--dim); margin: 10px 0 0; font-size: 15px; }
+
+  h2 {
+    font-size: 15px; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--yellow); margin: 40px 0 12px; font-weight: 700;
+  }
+  p { margin: 0 0 14px; }
+  strong { color: #eef1f8; }
+  hr { border: 0; border-top: 1px solid var(--rule); margin: 34px 0; }
+
+  video, figure img { width: 100%; display: block; border: 1px solid var(--rule); }
+  figure { margin: 0; }
+  figure img { image-rendering: pixelated; }
+  figcaption { color: var(--faint); font-size: 12px; margin-top: 6px; text-align: center; }
+
+  .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 560px) { .shots { grid-template-columns: 1fr; } }
+  /* Two shots are the portrait layout (960x2160) and would tower over the
+     landscape ones; cap their height and centre them in the cell instead. */
+  .shots figure img.tall { max-height: 430px; width: auto; margin: 0 auto; }
+
+  .loop { display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; }
+  .loop img { width: 240px; image-rendering: pixelated; border: 1px solid var(--rule); }
+  .loop p { flex: 1 1 260px; min-width: 240px; color: var(--dim); font-size: 14px; margin: 0; }
+
+  .where {
+    background: #0e1430; border: 1px solid var(--rule);
+    padding: 16px 18px; color: var(--dim); font-size: 15px;
+  }
+  .where p:last-child { margin-bottom: 0; }
+
+  footer {
+    border-top: 1px solid var(--rule); margin-top: 40px; padding-top: 18px;
+    color: var(--faint); font-size: 14px;
+  }
+  footer ul { list-style: none; margin: 0 0 14px; padding: 0; }
+  footer li { display: inline-block; margin: 0 18px 6px 0; }
+  .warn { color: var(--faint); font-size: 14px; font-style: italic; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <img src="media/lockup.png" alt="Dark Maze">
+    <p class="tagline">Dark stone in every direction. The way out is in here somewhere.</p>
+  </header>
+
+  <video controls preload="none" poster="media/title-plate.png" playsinline>
+    <source src="media/trailer.webm" type="video/webm">
+    <a href="media/trailer.webm">Watch the trailer</a>
+  </video>
+
+  <hr>
+
+  <p>Listen, hero. Here is the job.</p>
+
+  <p>There is an artefact at the top of the wizard's tower. Very powerful. Take it.</p>
+
+  <p>You should know the tower is larger inside than out. Magic, presumably. That is the wizards' business.</p>
+
+  <p>The night is short. Be quick — whatever you mean to do in there, do it before the sun comes up.</p>
+
+  <p>Others went in before you. They are still in there, one way or another.</p>
+
+  <p>Maybe they got lost. Maybe it was something else. Be careful.</p>
+
+  <h2>About this game</h2>
+
+  <p>A first-person maze in the dark.</p>
+
+  <p>Stone walls, close on either side. Enough light to see a step or two ahead, and past that nothing at all. Every passage looks like the one before it, and the map draws only where you have already been.</p>
+
+  <p>Several possible endings. Only one of them is good.</p>
+
+  <p class="warn">Contains sudden loud sounds, jump scares and sharp changes from dark to bright.</p>
+
+  <h2>Screenshots</h2>
+
+  <div class="shots">
+    <figure>
+      <img src="media/corridor-with-map.png" alt="A stone corridor with the map beside it" loading="lazy">
+      <figcaption>Corridor, darkness, the map, the clock</figcaption>
+    </figure>
+    <figure>
+      <img src="media/menu-video-modes.png" alt="The video mode menu" loading="lazy">
+      <figcaption>You pick your video mode before anything starts</figcaption>
+    </figure>
+    <figure>
+      <img src="media/cga-corridor.png" alt="The same corridor in CGA" loading="lazy">
+      <figcaption>The same corridor in CGA</figcaption>
+    </figure>
+    <figure>
+      <img src="media/ega-corridor.png" alt="The same corridor in EGA" loading="lazy">
+      <figcaption>…and in EGA</figcaption>
+    </figure>
+    <figure>
+      <img class="tall" src="media/map-explored.png" alt="A mostly explored map" loading="lazy">
+      <figcaption>A floor mostly walked</figcaption>
+    </figure>
+    <figure>
+      <img class="tall" src="media/scores.png" alt="The high score table" loading="lazy">
+      <figcaption>Three letters, the way it was</figcaption>
+    </figure>
+  </div>
+
+  <h2>Walking it</h2>
+
+  <div class="loop">
+    <img src="media/dark-maze.gif" alt="Walking a corridor, turning a corner, the map filling in behind" loading="lazy">
+    <p>A corridor, a junction, and the map filling in behind — the portrait view, as a phone
+    held upright shows it.</p>
+  </div>
+
+  <h2>From me</h2>
+
+  <p>I grew up on DOS games, and I have tried to get as much of that era into this one as I could.</p>
+
+  <p>You pick your video mode before anything starts — Mono, CGA, EGA, VGA, SVGA. And 3Dfx, if you are lucky enough to have one! A game that explains nothing and trusts you to work it out. Three letters on a high score table. Every bit of it on purpose.</p>
+
+  <p>I am one person making this. Any kind of thank you, and any suggestion for improving it, would mean a great deal.</p>
+
+  <p>I hope you enjoy it.</p>
+
+  <h2>Where to get it</h2>
+
+  <div class="where">
+    <p><strong>Not released yet.</strong> When it is, the links to buy and play it appear here.</p>
+    <p>Version 1.0.0. More to come.</p>
+  </div>
+
+  <footer>
+    <ul>
+      <li><a href="privacy/">Privacy policy</a></li>
+      <li><a href="notices/">Third-party notices</a></li>
+      <li><a href="mailto:vatvit.dev+darkmaze@gmail.com">vatvit.dev+darkmaze@gmail.com</a></li>
+      <li><a href="/">Other projects</a></li>
+    </ul>
+    <p>Dark Maze — Copyright © 2026 vatvit. All rights reserved.</p>
+  </footer>
+
+</div>
+</body>
+</html>
