@@ -1,0 +1,23 @@
+# GitHub Pages configuration for vatvit.github.io.
+#
+# A user site: it serves from the repository root at https://vatvit.github.io/,
+# so no `baseurl` is needed and every project folder becomes a path under it.
+#
+# Switching it on: Settings → Pages → "Deploy from a branch" → main / (root).
+
+title: vatvit
+description: Published artefacts for vatvit's projects — policies, licences and anything else that needs a permanent public address.
+theme: jekyll-theme-minimal
+
+# Rewrites .md links between documents into their published .html form, so
+# cross-links resolve on the site instead of 404ing. Part of the default
+# GitHub Pages plugin set.
+plugins:
+  - jekyll-relative-links
+relative_links:
+  enabled: true
+  collections: true
+
+exclude:
+  # Instructions for whoever maintains the repo, not a page for visitors.
+  - README.md
