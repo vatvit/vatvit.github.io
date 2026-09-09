@@ -1,7 +1,7 @@
 ---
-title: Dark Maze — Privacy Policy
-description: Dark Maze collects nothing, sends nothing, and this is what it keeps on your own device.
-permalink: /dark-maze/privacy/
+title: "Dark Maze: The Tower — Privacy Policy"
+description: "Dark Maze collects nothing, sends nothing, and this is what it keeps on your own device."
+permalink: "/dark-maze/privacy/"
 ---
 
 # Privacy Policy for Dark Maze

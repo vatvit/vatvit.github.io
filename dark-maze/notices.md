@@ -1,7 +1,7 @@
 ---
-title: Dark Maze — Third-Party Notices
-description: Every third-party component that ships inside a Dark Maze build, with its licence.
-permalink: /dark-maze/notices/
+title: "Dark Maze: The Tower — Third-Party Notices"
+description: "Every third-party component that ships inside a Dark Maze build, with its licence."
+permalink: "/dark-maze/notices/"
 ---
 
 <!--
